@@ -48,7 +48,17 @@
         </div>
         <!-- Spinner End -->
 
-        @yield('content')
+        <div class="container-fluid">
+            <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+                <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+                    <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
+
+                        @yield('content')
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- JavaScript Libraries -->
@@ -59,7 +69,7 @@
     <script src="{{ asset('lib/owlcarousel/owl.carousel.min.js') }}"></script>
 
     <!-- Core Javascript -->
-    <script src="js/main.js"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
 </body>
 
 </html>
