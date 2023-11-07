@@ -27,4 +27,14 @@ class Attendance extends Model
     protected $casts = [
         'checked_in_at' => 'datetime',
     ];
+
+    /**
+     * An attendance was signed by a user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
