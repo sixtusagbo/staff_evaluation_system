@@ -27,7 +27,7 @@
                 <a href="#staff" class="nav-item nav-link">Staff</a>
                 <a href="#testimonial" class="nav-item nav-link">Testimonial</a>
             </div>
-            <a href="" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Login<i
+            <a href="{{ route('login') }}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Login<i
                     class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
