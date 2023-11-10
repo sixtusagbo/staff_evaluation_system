@@ -44,14 +44,17 @@
                     <div class="container">
                         <div class="row justify-content-start">
                             <div class="col-sm-10 col-lg-8">
-                                <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Best Online Courses</h5>
-                                <h1 class="display-3 text-white animated slideInDown">The Best Online Learning Platform</h1>
+                                <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Staff Evaluation System
+                                </h5>
+                                <h1 class="display-3 text-white animated slideInDown">Automated Staff Evaluation Software
+                                </h1>
                                 <p class="fs-5 text-white mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet
                                     sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea sanctus eirmod
                                     elitr.</p>
-                                <a href=""
+                                <a href="{{ route('login') }}"
                                     class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Login</a>
-                                <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Join Now</a>
+                                <a href="{{ route('register') }}"
+                                    class="btn btn-light py-md-3 px-md-5 animated slideInRight">Join Now</a>
                             </div>
                         </div>
                     </div>
@@ -64,15 +67,16 @@
                     <div class="container">
                         <div class="row justify-content-start">
                             <div class="col-sm-10 col-lg-8">
-                                <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Best Online Courses</h5>
-                                <h1 class="display-3 text-white animated slideInDown">Get Educated Online From Your Home
+                                <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Quick Validation</h5>
+                                <h1 class="display-3 text-white animated slideInDown">Get Fast Responses on Your Tasks
                                 </h1>
                                 <p class="fs-5 text-white mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet
                                     sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea sanctus eirmod
                                     elitr.</p>
-                                <a href=""
+                                <a href="{{ route('login') }}"
                                     class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Login</a>
-                                <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Join Now</a>
+                                <a href="{{ route('register') }}"
+                                    class="btn btn-light py-md-3 px-md-5 animated slideInRight">Join Now</a>
                             </div>
                         </div>
                     </div>

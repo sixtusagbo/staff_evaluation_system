@@ -53,17 +53,22 @@
         <!-- Sidebar Start -->
         <div class="sidebar pe-0 pb-3">
             <nav class="navbar bg-light navbar-light h-100">
-                <a href="index.html" class="navbar-brand mx-4 mb-3">
+                <a href="{{ route('home') }}" class="navbar-brand mx-4 mb-3">
                     <h3 class="text-primary"><i class="fa fa-school me-2"></i>SES</h3>
                 </a>
 
 
                 <div class="navbar-nav w-100 h-100">
-                    <a href="index.html" class="nav-item nav-link active"><i
+                    <a href="{{ route('home') }}"
+                        class="nav-item nav-link @if (Route::is('home')) active @endif"><i
                             class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
 
-                    <a href="widget.html" class="nav-item nav-link"><i class="fa fa-tasks me-2"></i>Tasks</a>
-                    <a href="form.html" class="nav-item nav-link"><i class="fa fa-snowboarding me-2"></i>Leave</a>
+                    <a href="{{ route('tasks.index') }}"
+                        class="nav-item nav-link @if (Route::is('tasks.index')) active @endif"><i
+                            class="fa fa-tasks me-2"></i>Tasks</a>
+                    <a href="{{ route('leaves.index') }}"
+                        class="nav-item nav-link @if (Route::is('leaves.index')) active @endif"><i
+                            class="fa fa-snowboarding me-2"></i>Leave</a>
 
                 </div>
             </nav>
@@ -87,8 +92,7 @@
                             <span class="d-none d-lg-inline-flex">{{ Auth::user()->name }}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">My Profile</a>
-                            <a href="#" class="dropdown-item">Tasks</a>
+                            <a href="{{ route('tasks.index') }}" class="dropdown-item">Tasks</a>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
                                           document.getElementById('logout-form').submit();">
