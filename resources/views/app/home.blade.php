@@ -5,6 +5,45 @@
         .attendance-banner {
             max-width: 400px !important;
         }
+
+        /* Timeline holder */
+        ul.timeline {
+            list-style-type: none;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        /* Timeline vertical line */
+        ul.timeline:before {
+            content: ' ';
+            background: lightgreen;
+            display: inline-block;
+            position: absolute;
+            left: 16px;
+            width: 4px;
+            height: 100%;
+            z-index: 400;
+            border-radius: 1rem;
+        }
+
+        li.timeline-item {
+            margin: 20px 0;
+        }
+
+        /* Timeline item circle marker */
+        li.timeline-item::before {
+            content: ' ';
+            background: #2bff00;
+            display: inline-block;
+            position: absolute;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            left: 11px;
+            width: 14px;
+            height: 14px;
+            z-index: 400;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
     </style>
 @endsection
 
@@ -73,4 +112,142 @@
             </div>
         </div>
     </div>
+
+    <!-- Widgets Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="h-100 bg-light rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h6 class="mb-0">Current Tasks</h6>
+                        <a href="">Show All</a>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0">Task Title</h6>
+                                <small>Ends in 15 minutes</small>
+                            </div>
+                            <span>Short description goes here...</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0">Task Title</h6>
+                                <small>Ends in 15 minutes</small>
+                            </div>
+                            <span>Short description goes here...</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0">Task Title</h6>
+                                <small>Ends in 15 minutes</small>
+                            </div>
+                            <span>Short description goes here...</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0">Task Title</h6>
+                                <small>Ends in 15 minutes</small>
+                            </div>
+                            <span>Short description goes here...</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0">Task Title</h6>
+                                <small>Ends in 15 minutes</small>
+                            </div>
+                            <span>Short description goes here...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="h-100 bg-light rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Attendances (Last 10)</h6>
+                        <a href="">Show All</a>
+                    </div>
+                    <!-- Attendance Timeline -->
+                    <ul class="timeline">
+                        @forelse ($attendances as $attendance)
+                            <li class="timeline-item rounded p-2">
+                                <h6 class="h6 mb-0">{{ $attendance->checked_in_at->format('D, jS M Y b\y h:i A') }}</h6>
+                            </li>
+                        @empty
+                            <div class="text-warning">
+                                No attendance signed yet.
+                            </div>
+                        @endforelse
+                    </ul><!-- Attendance End -->
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="h-100 bg-light rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h6 class="mb-0">Leaves (Last 10)</h6>
+                        <a href="">Show All</a>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0"><span class="badge rounded-pill bg-warning">Pending Review</span>
+                                    SICK LEAVE</h6>
+                            </div>
+                            <span>From <span class="fw-bold">Foo Date</span> to <span class="fw-bold">Bar
+                                    Date</span></span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0"><span class="badge rounded-pill bg-danger">Declined</span>
+                                    SICK LEAVE</h6>
+                            </div>
+                            <span>From <span class="fw-bold">Foo Date</span> to <span class="fw-bold">Bar
+                                    Date</span></span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0"><span class="badge rounded-pill bg-danger">Declined</span>
+                                    SICK LEAVE</h6>
+                            </div>
+                            <span>From <span class="fw-bold">Foo Date</span> to <span class="fw-bold">Bar
+                                    Date</span></span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0"><span class="badge rounded-pill bg-success">Approved</span>
+                                    SICK LEAVE</h6>
+                            </div>
+                            <span>From <span class="fw-bold">Foo Date</span> to <span class="fw-bold">Bar
+                                    Date</span></span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0"><span class="badge rounded-pill bg-success">Approved</span>
+                                    SICK LEAVE</h6>
+                            </div>
+                            <span>From <span class="fw-bold">Foo Date</span> to <span class="fw-bold">Bar
+                                    Date</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Widgets End -->
 @endsection
