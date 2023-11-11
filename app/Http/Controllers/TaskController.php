@@ -12,7 +12,21 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return view('app.tasks');
+        $user = auth()->user();
+
+        $data = [
+            'user' => $user,
+            'tasks' => $user->tasks,
+            'pending_tasks' => $user->tasks()->where('deadline', '<', now()),
+            'upcoming_tasks' => $user->tasks()->where('started_on', '>', now()),
+        ];
+
+        $admin_data = [
+            'user' => $user,
+            'tasks' => Task::latest()->get(),
+        ];
+
+        return view('app.tasks')->with($user->is_admin ? $admin_data : $data);
     }
 
     /**

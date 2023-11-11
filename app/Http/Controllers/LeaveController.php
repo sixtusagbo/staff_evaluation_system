@@ -12,7 +12,17 @@ class LeaveController extends Controller
      */
     public function index()
     {
-        return view('app.leaves');
+        $user = auth()->user();
+
+        $data = [
+            'leaves' => $user->leaves,
+        ];
+
+        $admin_data = [
+            'leaves' => Leave::latest()->get(),
+        ];
+
+        return view('app.leaves')->with($user->is_admin ? $admin_data : $data);
     }
 
     /**

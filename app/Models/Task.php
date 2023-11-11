@@ -20,6 +20,7 @@ class Task extends Model
         'description',
         'deadline',
         'user_id',
+        'started_on',
     ];
 
     /**
@@ -29,5 +30,16 @@ class Task extends Model
      */
     protected $casts = [
         'deadline' => 'datetime',
+        'started_on' => 'datetime',
     ];
+
+    /**
+     * The tasks that belong to the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }

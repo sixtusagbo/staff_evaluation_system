@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 125);
             $table->string('description');
+            $table->timestamp('started_on');
             $table->timestamp('deadline');
             $table->timestamps();
         });

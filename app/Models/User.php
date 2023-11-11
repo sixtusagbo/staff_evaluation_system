@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'type',
     ];
 
     /**
@@ -50,6 +51,7 @@ class User extends Authenticatable
      */
     protected $appends = [
         'checked_in_today',
+        'is_admin',
     ];
 
     /**
@@ -61,10 +63,34 @@ class User extends Authenticatable
     }
 
     /**
+     * A user has many leaves.
+     */
+    public function leaves()
+    {
+        return $this->hasMany(Leave::class);
+    }
+
+    /**
      * Return true/false whether user has signed attendance or not.
      */
     public function getCheckedInTodayAttribute()
     {
         return $this->attendances()->exists() ? $this->attendances->last()->checked_in_at->isToday() : false;
+    }
+
+    /**
+     * Return true/false whether user is admin or not.
+     */
+    public function getIsAdminAttribute()
+    {
+        return $this->type == 1;
+    }
+
+    /**
+     * A user has many tasks.
+     */
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class)->withTimestamps();
     }
 }
