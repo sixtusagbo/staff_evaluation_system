@@ -36,13 +36,10 @@ class HomeController extends Controller
         $admin_data = [
             'users' => User::where('type', 0)->latest(),
             'tasks' => Task::latest(),
-            'pending_leaves' => Leave::latest(),
+            'pending_leaves' => Leave::latest()->where('status', 0)->get(),
+            'leaves' => Leave::latest(),
         ];
 
-        if ($user->type == 1) {
-            return view('admin.home')->with($admin_data);
-        }
-
-        return view('app.home')->with($data);
+        return $user->is_admin ? view('admin.home')->with($admin_data) : view('app.home')->with($data);
     }
 }
