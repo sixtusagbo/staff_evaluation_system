@@ -4,68 +4,69 @@
     <div class="container-fluid pt-4 px-4">
         <div class="bg-light text-center rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
-                <h6 class="mb-0">All Tasks ({{ $tasks->count() }})</h6>
-                <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createTask">Create</button>
+                <h6 class="mb-0">All Leaves ({{ $leaves->count() }})</h6>
             </div>
             <div class="table-responsive">
                 <table class="table text-start align-middle table-bordered table-hover mb-0">
                     <thead>
                         <tr class="text-dark">
+                            <th scope="col">Staff</th>
                             <th scope="col">Title</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Started On</th>
-                            <th scope="col">Deadline</th>
+                            <th scope="col">Starts On</th>
+                            <th scope="col">Ends By</th>
+                            <th scope="col">Reason</th>
                             <th scope="col">Status</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($tasks as $task)
+                        @forelse ($leaves as $leave)
                             <tr>
-                                <td>{{ $task->title }}</td>
-                                <td>{!! Str::limit($task->description, 50, '...') !!}</td>
-                                <td>{{ $task->started_on->toDayDateTimeString() }}</td>
-                                <td>{{ $task->deadline->toDayDateTimeString() }}</td>
+                                <td>{{ $leave->user->name }}</td>
+                                <td>{{ $leave->title }}</td>
+                                <td>{{ $leave->start_date->format('M d, Y') }}</td>
+                                <td>{{ $leave->end_date->format('M d, Y') }}</td>
+                                <td>{!! Str::limit($leave->reason, 50, '...') !!}</td>
                                 <td>
-                                    {{-- ? 0 - Upcoming, 1- Ongoing, 2 - Elapsed --}}
-                                    @switch($task->status)
+                                    {{-- ? 0: Pending, 1: Approved, 2: Rejected --}}
+                                    @switch($leave->status)
                                         @case(0)
-                                            <span class="badge rounded-pill bg-info">Upcoming</span>
+                                            <span class="badge rounded-pill bg-warning">Pending</span>
                                         @break
 
                                         @case(1)
-                                            <span class="badge rounded-pill bg-dark">Ongoing</span>
+                                            <span class="badge rounded-pill bg-success">Approved</span>
                                         @break
 
                                         @case(2)
-                                            <span class="badge rounded-pill bg-secondary">Elapsed</span>
+                                            <span class="badge rounded-pill bg-dark">Rejected</span>
                                         @break
                                     @endswitch
                                 </td>
                                 <td>
                                     <button class="btn btn-sm btn-warning me-2 mb-2" data-bs-toggle="modal"
-                                        data-bs-target="#editTask{{ $task->id }}">
-                                        <i class="fa fa-pencil-alt"></i>
+                                        data-bs-target="#editLeave{{ $leave->id }}" title="View">
+                                        <i class="fa fa-eye"></i>
                                     </button>
                                     <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#deleteTask{{ $task->id }}">
+                                        data-bs-target="#deleteTask{{ $leave->id }}" title="Remove">
                                         <i class="fa fa-trash-alt"></i>
                                     </button>
                                 </td>
                             </tr>
 
-                            <!-- Edit Task Modal -->
-                            <div class="modal fade" id="editTask{{ $task->id }}" data-bs-keyboard="false" tabindex="-1"
-                                aria-labelledby="editTask{{ $task->id }}Label" aria-hidden="true">
+                            <!-- Edit Leave Modal -->
+                            <div class="modal fade" id="editTask{{ $leave->id }}" data-bs-keyboard="false" tabindex="-1"
+                                aria-labelledby="editTask{{ $leave->id }}Label" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content border-0">
                                         <div class="modal-header bg-light">
-                                            <h4 class="modal-title fs-6" id="editTask{{ $task->id }}Label">Edit Task
+                                            <h4 class="modal-title fs-6" id="editTask{{ $leave->id }}Label">Edit Leave
                                             </h4>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <form action="{{ route('tasks.update', $task) }}" method="POST">
+                                        <form action="{{ route('tasks.update', $leave) }}" method="POST">
                                             @csrf
 
                                             <div class="modal-body bg-light">
@@ -74,28 +75,28 @@
                                                     <div class="mb-3 d-flex flex-column align-items-start">
                                                         <label for="title" class="form-label">Title</label>
                                                         <input type="text" name="title" class="form-control"
-                                                            value="{{ $task->title }}" />
+                                                            value="{{ $leave->title }}" />
                                                     </div>
                                                     <div class="mb-3 d-flex flex-column align-items-start">
                                                         <label class="form-label">Description</label>
                                                         <textarea name="description" rows="4" class="form-control description">
-                                                            {!! $task->description !!}
+                                                            {!! $leave->description !!}
                                                         </textarea>
                                                     </div>
                                                     <div class="mb-3 d-flex flex-column align-items-start">
                                                         <label for="starts_on" class="form-label">Starts On</label>
                                                         <input type="datetime-local" name="starts_on" class="form-control"
-                                                            value="{{ $task->started_on }}" />
+                                                            value="{{ $leave->started_on }}" />
                                                     </div>
                                                     <div class="mb-3 d-flex flex-column align-items-start">
                                                         <label for="deadline" class="form-label">Deadline</label>
                                                         <input type="datetime-local" name="deadline" class="form-control"
-                                                            value="{{ $task->deadline }}" />
+                                                            value="{{ $leave->deadline }}" />
                                                     </div>
                                                     <div class="mb-3 d-flex flex-column align-items-start">
                                                         <label for="points" class="form-label">Points</label>
                                                         <input type="number" name="points" class="form-control"
-                                                            min="1" value="{{ $task->points }}" />
+                                                            min="1" value="{{ $leave->points }}" />
                                                     </div>
                                                 </div>
                                                 @method('PUT')
@@ -110,20 +111,19 @@
                                     </div>
                                 </div>
                             </div>
-
                             <!-- Delete Task Modal -->
-                            <div class="modal fade" id="deleteTask{{ $task->id }}" data-bs-keyboard="false"
-                                tabindex="-1" aria-labelledby="deleteTask{{ $task->id }}Label" aria-hidden="true">
+                            <div class="modal fade" id="deleteTask{{ $leave->id }}" data-bs-keyboard="false"
+                                tabindex="-1" aria-labelledby="deleteTask{{ $leave->id }}Label" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content border-0">
                                         <div class="modal-header bg-light">
-                                            <h4 class="modal-title fs-6" id="deleteTask{{ $task->id }}Label">Delete
+                                            <h4 class="modal-title fs-6" id="deleteTask{{ $leave->id }}Label">Delete
                                                 Task
                                             </h4>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <form action="{{ route('tasks.destroy', $task) }}" method="POST">
+                                        <form action="{{ route('tasks.destroy', $leave) }}" method="POST">
                                             @csrf
 
                                             <div class="modal-body bg-light">
@@ -145,58 +145,11 @@
                             </div>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center">No task found</td>
+                                    <td colspan="7" class="text-center">No leave found</td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Create Task Modal -->
-        <div class="modal fade" id="createTask" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="createTaskLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content border-0">
-                    <div class="modal-header bg-light">
-                        <h4 class="modal-title fs-6" id="createTaskLabel">Create Task</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form action="{{ route('tasks.store') }}" method="POST">
-                        @csrf
-
-                        <div class="modal-body bg-light">
-                            <div class="rounded h-100">
-
-                                <div class="mb-3">
-                                    <label for="title" class="form-label">Title</label>
-                                    <input type="text" name="title" class="form-control" />
-                                </div>
-                                <div class="mb-3">
-                                    <label for="description" class="form-label">Description</label>
-                                    <textarea name="description" rows="4" class="form-control description"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="starts_on" class="form-label">Starts On</label>
-                                    <input type="datetime-local" name="starts_on" class="form-control" />
-                                </div>
-                                <div class="mb-3">
-                                    <label for="deadline" class="form-label">Deadline</label>
-                                    <input type="datetime-local" name="deadline" class="form-control" />
-                                </div>
-                                <div class="mb-3">
-                                    <label for="points" class="form-label">Points</label>
-                                    <input type="number" name="points" class="form-control" min="1"
-                                        value="1" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer bg-light">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-success">Continue</button>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>

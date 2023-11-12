@@ -19,7 +19,7 @@ class TaskFactory extends Factory
     {
         return [
             'title' => fake()->sentence(),
-            'description' => fake()->paragraph(3),
+            'description' => fake()->paragraph(),
             'started_on' => Carbon::now(),
             'deadline' => Carbon::now()->addMinutes(30),
             'points' => fake()->numberBetween(1, 30),

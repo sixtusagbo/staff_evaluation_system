@@ -18,7 +18,7 @@
                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                     <div class="d-flex justify-content-center align-items-center">
                         <i class="fa fa-list-ul fa-3x text-primary"></i>
-                        <p class="mb-2 ms-3">Today's Tasks</p>
+                        <p class="mb-2 ms-3">Leaves</p>
                     </div>
                     <div class="ms-3">
                         <h6 class="mb-0">34</h6>

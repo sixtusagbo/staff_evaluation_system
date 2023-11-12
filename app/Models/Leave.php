@@ -15,11 +15,12 @@ class Leave extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_id',
         'title',
         'start_date',
         'end_date',
         'reason',
-        'approved_on',
+        'status',
     ];
 
     /**
@@ -28,7 +29,17 @@ class Leave extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'approved_on' => 'datetime',
+        'start_date' => 'date',
+        'end_date' => 'date',
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'completed', //? 0: False, 1: True
     ];
 
     /**
@@ -39,5 +50,17 @@ class Leave extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Return whether the leave is completed.
+     */
+    public function getCompletedAttribute()
+    {
+        if ($this->status == 1 && $this->end_date->isPast()) {
+            return true;
+        }
+
+        return false;
     }
 }

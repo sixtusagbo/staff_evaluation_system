@@ -22,7 +22,7 @@ class LeaveController extends Controller
             'leaves' => Leave::latest()->get(),
         ];
 
-        return view('app.leaves')->with($user->is_admin ? $admin_data : $data);
+        return $user->is_admin ? view('admin.leaves', $admin_data) : view('app.leaves', $data);
     }
 
     /**
@@ -37,14 +37,6 @@ class LeaveController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Leave $leave)
     {
         //
     }
