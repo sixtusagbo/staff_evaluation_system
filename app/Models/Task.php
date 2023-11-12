@@ -18,9 +18,9 @@ class Task extends Model
     protected $fillable = [
         'name',
         'description',
-        'deadline',
-        'user_id',
         'started_on',
+        'deadline',
+        'points',
     ];
 
     /**
@@ -34,6 +34,15 @@ class Task extends Model
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'status', //? 0 - Upcoming, 1- Ongoing, 2 - Elapsed
+    ];
+
+    /**
      * The tasks that belong to the user.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -41,5 +50,19 @@ class Task extends Model
     public function users()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    /**
+     * Return the task status.
+     */
+    public function getStatusAttribute()
+    {
+        if ($this->deadline->isPast()) {
+            return 2;
+        } else if ($this->started_on->isPast() && $this->deadline->isFuture()) {
+            return 1;
+        } else if ($this->started_on->isFuture()) {
+            return 0;
+        }
     }
 }

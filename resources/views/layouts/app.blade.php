@@ -107,7 +107,9 @@
             </nav>
             <!-- Navbar End -->
 
-            @include('partials.messages')
+            <div class="container-fluid pt-4 px-4">
+                @include('partials.messages')
+            </div>
             @yield('content')
 
         </div>

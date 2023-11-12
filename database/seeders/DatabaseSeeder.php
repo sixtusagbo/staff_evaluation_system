@@ -19,5 +19,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\User::factory(5)->create();
+
+        $this->call([
+            TaskSeeder::class,
+        ]);
     }
 }

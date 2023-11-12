@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,9 +18,11 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->words(),
-            'description' => fake()->sentences(7),
+            'title' => fake()->sentence(),
+            'description' => fake()->paragraph(3),
+            'started_on' => Carbon::now(),
             'deadline' => Carbon::now()->addMinutes(30),
+            'points' => fake()->numberBetween(1, 30),
         ];
     }
 }
