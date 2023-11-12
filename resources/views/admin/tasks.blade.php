@@ -50,9 +50,10 @@
                                         data-bs-target="#editTask{{ $task->id }}">
                                         <i class="fa fa-pencil-alt"></i>
                                     </button>
-                                    <a class="btn btn-sm btn-danger" href="">
+                                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                        data-bs-target="#deleteTask{{ $task->id }}">
                                         <i class="fa fa-trash-alt"></i>
-                                    </a>
+                                    </button>
                                 </td>
                             </tr>
 
@@ -107,6 +108,38 @@
                                                 <button type="button" class="btn btn-secondary"
                                                     data-bs-dismiss="modal">Close</button>
                                                 <button type="submit" class="btn btn-success">Update</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Edit Task Modal -->
+                            <div class="modal fade" id="deleteTask{{ $task->id }}" data-bs-keyboard="false"
+                                tabindex="-1" aria-labelledby="deleteTask{{ $task->id }}Label" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content border-0">
+                                        <div class="modal-header bg-light">
+                                            <h4 class="modal-title fs-6" id="deleteTask{{ $task->id }}Label">Delete
+                                                Task
+                                            </h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <form action="{{ route('tasks.destroy', $task) }}" method="POST">
+                                            @csrf
+
+                                            <div class="modal-body bg-light">
+                                                <div class="rounded h-100">
+                                                    Attention! You are about to delete this task. This action cannot be
+                                                    undone.
+                                                </div>
+                                                @method('DELETE')
+                                            </div>
+
+                                            <div class="modal-footer bg-light">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-success">Continue</button>
                                             </div>
                                         </form>
                                     </div>
