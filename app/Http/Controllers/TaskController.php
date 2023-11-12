@@ -54,19 +54,28 @@ class TaskController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Task $task)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Task $task)
+    public function update(Task $task)
     {
-        //
+        return request();
+
+        $data = request()->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'starts_on' => 'required|date|before:deadline',
+            'deadline' => 'required|date|after:starts_on',
+            'points' => 'required|numeric',
+        ]);
+
+        $task->title = $data['title'];
+        $task->description = $data['description'];
+        $task->started_on = $data['starts_on'];
+        $task->deadline = $data['deadline'];
+        $task->points = $data['points'];
+        $task->update();
+
+        return redirect()->back()->with('success', 'Task updated successfully');
     }
 
     /**

@@ -1,9 +1,6 @@
 @extends('layouts.app')
 
 @section('styles')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/ui/trumbowyg.min.css"
-        integrity="sha512-Fm8kRNVGCBZn0sPmwJbVXlqfJmPC13zRsMElZenX6v721g/H7OukJd8XzDEBRQ2FSATK8xNF9UYvzsCtUpfeJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endsection
 
 @section('content')
@@ -11,7 +8,7 @@
         <div class="bg-light text-center rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <h6 class="mb-0">All Tasks ({{ $tasks->count() }})</h6>
-                <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Create</button>
+                <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createTask">Create</button>
             </div>
             <div class="table-responsive">
                 <table class="table text-start align-middle table-bordered table-hover mb-0">
@@ -49,14 +46,72 @@
                                     @endswitch
                                 </td>
                                 <td>
-                                    <a class="btn btn-sm btn-warning me-2 mb-2" href="">
+                                    <button class="btn btn-sm btn-warning me-2 mb-2" data-bs-toggle="modal"
+                                        data-bs-target="#editTask{{ $task->id }}">
                                         <i class="fa fa-pencil-alt"></i>
-                                    </a>
+                                    </button>
                                     <a class="btn btn-sm btn-danger" href="">
                                         <i class="fa fa-trash-alt"></i>
                                     </a>
                                 </td>
                             </tr>
+
+                            <!-- Edit Task Modal -->
+                            <div class="modal fade" id="editTask{{ $task->id }}" data-bs-keyboard="false" tabindex="-1"
+                                aria-labelledby="editTask{{ $task->id }}Label" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content border-0">
+                                        <div class="modal-header bg-light">
+                                            <h4 class="modal-title fs-6" id="editTask{{ $task->id }}Label">Edit Task
+                                            </h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <form action="{{ route('tasks.update', $task) }}" method="POST">
+                                            @csrf
+
+                                            <div class="modal-body bg-light">
+                                                <div class="rounded h-100">
+
+                                                    <div class="mb-3 d-flex flex-column align-items-start">
+                                                        <label for="title" class="form-label">Title</label>
+                                                        <input type="text" name="title" class="form-control"
+                                                            value="{{ $task->title }}" />
+                                                    </div>
+                                                    <div class="mb-3 d-flex flex-column align-items-start">
+                                                        <label class="form-label">Description</label>
+                                                        <textarea name="description" rows="4" class="form-control description">
+                                                            {!! $task->description !!}
+                                                        </textarea>
+                                                    </div>
+                                                    <div class="mb-3 d-flex flex-column align-items-start">
+                                                        <label for="starts_on" class="form-label">Starts On</label>
+                                                        <input type="datetime-local" name="starts_on" class="form-control"
+                                                            value="{{ $task->started_on }}" />
+                                                    </div>
+                                                    <div class="mb-3 d-flex flex-column align-items-start">
+                                                        <label for="deadline" class="form-label">Deadline</label>
+                                                        <input type="datetime-local" name="deadline" class="form-control"
+                                                            value="{{ $task->deadline }}" />
+                                                    </div>
+                                                    <div class="mb-3 d-flex flex-column align-items-start">
+                                                        <label for="points" class="form-label">Points</label>
+                                                        <input type="number" name="points" class="form-control"
+                                                            min="1" value="{{ $task->points }}" />
+                                                    </div>
+                                                </div>
+                                                @method('PUT')
+                                            </div>
+
+                                            <div class="modal-footer bg-light">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-success">Update</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                             @empty
                                 <h4 class="text-warning">No task found</h4>
                             @endforelse
@@ -67,12 +122,12 @@
         </div>
 
         <!-- Create Task Modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade" id="createTask" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="createTaskLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content border-0">
                     <div class="modal-header bg-light">
-                        <h4 class="modal-title fs-6" id="staticBackdropLabel">Create Task</h4>
+                        <h4 class="modal-title fs-6" id="createTaskLabel">Create Task</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="{{ route('tasks.store') }}" method="POST">
@@ -83,23 +138,23 @@
 
                                 <div class="mb-3">
                                     <label for="title" class="form-label">Title</label>
-                                    <input type="text" name="title" class="form-control" id="title" />
+                                    <input type="text" name="title" class="form-control" />
                                 </div>
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description</label>
-                                    <textarea name="description" id="description" rows="4" class="form-control"></textarea>
+                                    <textarea name="description" rows="4" class="form-control description"></textarea>
                                 </div>
                                 <div class="mb-3">
                                     <label for="starts_on" class="form-label">Starts On</label>
-                                    <input type="datetime-local" name="starts_on" class="form-control" id="starts_on" />
+                                    <input type="datetime-local" name="starts_on" class="form-control" />
                                 </div>
                                 <div class="mb-3">
                                     <label for="deadline" class="form-label">Deadline</label>
-                                    <input type="datetime-local" name="deadline" class="form-control" id="deadline" />
+                                    <input type="datetime-local" name="deadline" class="form-control" />
                                 </div>
                                 <div class="mb-3">
                                     <label for="points" class="form-label">Points</label>
-                                    <input type="number" name="points" class="form-control" min="1" id="points"
+                                    <input type="number" name="points" class="form-control" min="1"
                                         value="1" />
                                 </div>
                             </div>
@@ -115,11 +170,13 @@
     @endsection
 
     @section('scripts')
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/trumbowyg.min.js"
-            integrity="sha512-YJgZG+6o3xSc0k5wv774GS+W1gx0vuSI/kr0E0UylL/Qg/noNspPtYwHPN9q6n59CTR/uhgXfjDXLTRI+uIryg=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+        <script src="{{ asset('lib/tinymce/tinymce.min.js') }}"></script>
         <script>
-            $('#description').trumbowyg();
+            tinymce.init({
+                selector: '.description',
+                menubar: 'edit view insert format', // remove 'file' from this list
+                toolbar_mode: 'floating',
+                width: '100%',
+            });
         </script>
     @endsection
