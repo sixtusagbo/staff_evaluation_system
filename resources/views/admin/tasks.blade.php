@@ -1,5 +1,11 @@
 @extends('layouts.app')
 
+@section('styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/ui/trumbowyg.min.css"
+        integrity="sha512-Fm8kRNVGCBZn0sPmwJbVXlqfJmPC13zRsMElZenX6v721g/H7OukJd8XzDEBRQ2FSATK8xNF9UYvzsCtUpfeJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+@endsection
+
 @section('content')
     <div class="container-fluid pt-4 px-4">
         <div class="bg-light text-center rounded p-4">
@@ -23,7 +29,7 @@
                         @forelse ($tasks as $task)
                             <tr>
                                 <td>{{ $task->title }}</td>
-                                <td>{{ Str::limit($task->description, 20, '...') }}</td>
+                                <td>{!! Str::limit($task->description, 35, '...') !!}</td>
                                 <td>{{ $task->started_on->toDayDateTimeString() }}</td>
                                 <td>{{ $task->deadline->toDayDateTimeString() }}</td>
                                 <td>
@@ -103,4 +109,14 @@
                 </div>
             </div>
         </div>
+    @endsection
+
+    @section('scripts')
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/trumbowyg.min.js"
+            integrity="sha512-YJgZG+6o3xSc0k5wv774GS+W1gx0vuSI/kr0E0UylL/Qg/noNspPtYwHPN9q6n59CTR/uhgXfjDXLTRI+uIryg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <script>
+            $('#description').trumbowyg();
+        </script>
     @endsection

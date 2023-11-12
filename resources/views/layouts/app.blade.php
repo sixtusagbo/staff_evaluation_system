@@ -35,6 +35,7 @@
     <!-- Core Stylesheet -->
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
 
+    {{-- Custom styles --}}
     @yield('styles')
 </head>
 
@@ -126,6 +127,9 @@
 
     <!-- Core Javascript -->
     <script src="{{ asset('js/main.js') }}"></script>
+
+    {{-- Custom scripts --}}
+    @yield('scripts')
 </body>
 
 </html>
