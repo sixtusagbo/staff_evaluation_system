@@ -26,7 +26,7 @@
                         @forelse ($tasks as $task)
                             <tr>
                                 <td>{{ $task->title }}</td>
-                                <td>{!! Str::limit($task->description, 35, '...') !!}</td>
+                                <td>{!! Str::limit($task->description, 50, '...') !!}</td>
                                 <td>{{ $task->started_on->toDayDateTimeString() }}</td>
                                 <td>{{ $task->deadline->toDayDateTimeString() }}</td>
                                 <td>

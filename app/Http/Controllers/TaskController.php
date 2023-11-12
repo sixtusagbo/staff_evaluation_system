@@ -58,8 +58,6 @@ class TaskController extends Controller
      */
     public function update(Task $task)
     {
-        return request();
-
         $data = request()->validate([
             'title' => 'required|string',
             'description' => 'required|string',
