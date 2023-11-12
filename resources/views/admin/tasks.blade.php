@@ -48,10 +48,13 @@
                                         @break
                                     @endswitch
                                 </td>
-                                <td class="d-flex flex-wrap" style="gap: 1rem">
-                                    <a class="btn btn-sm btn-primary" href="">Detail</a>
-                                    <a class="btn btn-sm btn-warning" href="">Edit</a>
-                                    <a class="btn btn-sm btn-danger" href="">Remove</a>
+                                <td>
+                                    <a class="btn btn-sm btn-warning me-2 mb-2" href="">
+                                        <i class="fa fa-pencil-alt"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-danger" href="">
+                                        <i class="fa fa-trash-alt"></i>
+                                    </a>
                                 </td>
                             </tr>
                             @empty

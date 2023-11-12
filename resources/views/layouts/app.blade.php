@@ -32,6 +32,9 @@
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
 
+    <!-- DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap5.min.css">
+
     <!-- Core Stylesheet -->
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
 
@@ -124,11 +127,25 @@
     <script src="{{ asset('lib/easing/easing.min.js') }}"></script>
     <script src="{{ asset('lib/waypoints/waypoints.min.js') }}"></script>
     <script src="{{ asset('lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap5.min.js"></script>
 
     <!-- Core Javascript -->
     <script src="{{ asset('js/main.js') }}"></script>
 
     {{-- Custom scripts --}}
+    <script>
+        $(document).ready(function() {
+            $.fn.dataTable.ext.errMode = 'none';
+            if ($('.table').length) {
+                $('.table').on('error.dt', function(e, settings, techNote, message) {
+                    console.log('[Error] DataTables: ', message);
+                }).DataTable({
+                    'ordering': false,
+                });
+            }
+        });
+    </script>
     @yield('scripts')
 </body>
 
