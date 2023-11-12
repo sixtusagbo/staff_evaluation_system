@@ -33,11 +33,18 @@ class HomeController extends Controller
             'attendances' => $user->attendances()->latest()->take(10)->get(),
         ];
 
+        $staff = User::withCount('tasks')->get();
+        $leaves = Leave::latest();
+        $chart_labels = $staff->pluck('name');
+        $chart_data = $staff->pluck('tasks_count');
+
         $admin_data = [
             'users' => User::where('type', 0)->latest(),
             'tasks' => Task::latest(),
-            'pending_leaves' => Leave::latest()->where('status', 0)->get(),
-            'leaves' => Leave::latest(),
+            'pending_leaves' => $leaves->where('status', 0)->get(),
+            'leaves' => $leaves->get(),
+            'chart_labels' => $chart_labels,
+            'chart_data' => $chart_data,
         ];
 
         return $user->is_admin ? view('admin.home')->with($admin_data) : view('app.home')->with($data);
