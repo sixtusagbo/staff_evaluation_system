@@ -19,7 +19,7 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         $started_on = $this->faker->dateTimeBetween('-1 month', '+1 month');
-        $deadline = (clone $started_on)->add(new DateInterval('PT' . $this->faker->numberBetween(1, 14) . 'H'));
+        $deadline = $this->faker->dateTimeBetween($started_on, '+1 month');
 
 
         return [

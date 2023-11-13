@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Leave;
 use App\Models\Task;
+use App\Models\TaskView;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -27,10 +28,13 @@ class HomeController extends Controller
     public function index()
     {
         $user = auth()->user();
+        $tasks = TaskView::latest();
 
         $data = [
             'user' => $user,
             'attendances' => $user->attendances()->latest()->take(10)->get(),
+            'tasks' => $tasks->where('status', 1)->take(5)->get(),
+            'leaves' => $user->leaves()->latest()->take(5)->get(),
         ];
 
         $staff = User::where('type', 0)->withCount(['tasks', 'attendances'])->latest()->get();
@@ -41,7 +45,7 @@ class HomeController extends Controller
 
         $admin_data = [
             'users' => $staff,
-            'tasks' => Task::latest(),
+            'tasks' => $tasks,
             'pending_leaves' => $leaves->where('status', 0)->get(),
             'leaves' => $leaves->get(),
             'chart_labels' => $chart_labels,
