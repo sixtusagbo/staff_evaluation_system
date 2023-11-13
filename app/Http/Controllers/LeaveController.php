@@ -52,9 +52,20 @@ class LeaveController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Leave $leave)
+    public function update(Leave $leave)
     {
-        //
+        $data = request()->validate([
+            'start_date' => 'required|date|before:end_date',
+            'end_date' => 'required|date|after:start_date',
+            'status' => 'required|numeric',
+        ]);
+
+        $leave->start_date = $data['start_date'];
+        $leave->end_date = $data['end_date'];
+        $leave->status = $data['status'];
+        $leave->update();
+
+        return redirect()->back()->with('success', 'Leave updated successfully');
     }
 
     /**

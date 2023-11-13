@@ -17,11 +17,14 @@ class LeaveFactory extends Factory
      */
     public function definition(): array
     {
+        $start_date = $this->faker->dateTimeBetween('-1 month', '+1 month');
+        $end_date = $this->faker->dateTimeBetween($start_date, '+2 months');
+
         return [
             'user_id' => User::factory(),
             'title' => $this->faker->sentence,
-            'start_date' => $this->faker->date(),
-            'end_date' => $this->faker->date(),
+            'start_date' => $start_date->format('Y-m-d'),
+            'end_date' => $end_date->format('Y-m-d'),
             'reason' => $this->faker->paragraph,
             'status' => $this->faker->randomElement([0, 1, 2]),
         ];

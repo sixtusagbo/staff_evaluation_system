@@ -46,7 +46,7 @@
                                 <td>
                                     <button class="btn btn-sm btn-warning me-2 mb-2" data-bs-toggle="modal"
                                         data-bs-target="#editLeave{{ $leave->id }}" title="View">
-                                        <i class="fa fa-eye"></i>
+                                        <i class="fa fa-pencil-alt"></i>
                                     </button>
                                     <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
                                         data-bs-target="#deleteTask{{ $leave->id }}" title="Remove">
@@ -56,17 +56,17 @@
                             </tr>
 
                             <!-- Edit Leave Modal -->
-                            <div class="modal fade" id="editTask{{ $leave->id }}" data-bs-keyboard="false" tabindex="-1"
-                                aria-labelledby="editTask{{ $leave->id }}Label" aria-hidden="true">
+                            <div class="modal fade" id="editLeave{{ $leave->id }}" data-bs-keyboard="false"
+                                tabindex="-1" aria-labelledby="editLeave{{ $leave->id }}Label" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content border-0">
                                         <div class="modal-header bg-light">
-                                            <h4 class="modal-title fs-6" id="editTask{{ $leave->id }}Label">Edit Leave
+                                            <h4 class="modal-title fs-6" id="editLeave{{ $leave->id }}Label">Edit Leave
                                             </h4>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <form action="{{ route('tasks.update', $leave) }}" method="POST">
+                                        <form action="{{ route('leaves.update', $leave) }}" method="POST">
                                             @csrf
 
                                             <div class="modal-body bg-light">
@@ -74,29 +74,38 @@
 
                                                     <div class="mb-3 d-flex flex-column align-items-start">
                                                         <label for="title" class="form-label">Title</label>
-                                                        <input type="text" name="title" class="form-control"
-                                                            value="{{ $leave->title }}" />
+                                                        <input type="text" class="form-control"
+                                                            value="{{ $leave->title }}" readonly />
                                                     </div>
                                                     <div class="mb-3 d-flex flex-column align-items-start">
-                                                        <label class="form-label">Description</label>
-                                                        <textarea name="description" rows="4" class="form-control description">
-                                                            {!! $leave->description !!}
+                                                        <label class="form-label">Reason</label>
+                                                        <textarea rows="6" class="form-control" readonly>
+                                                            {!! $leave->reason !!}
                                                         </textarea>
                                                     </div>
                                                     <div class="mb-3 d-flex flex-column align-items-start">
-                                                        <label for="starts_on" class="form-label">Starts On</label>
-                                                        <input type="datetime-local" name="starts_on" class="form-control"
-                                                            value="{{ $leave->started_on }}" />
+                                                        <label for="start_date" class="form-label">Starts On</label>
+                                                        <input type="date" name="start_date" class="form-control"
+                                                            value="{{ $leave->start_date->format('Y-m-d') }}" />
                                                     </div>
                                                     <div class="mb-3 d-flex flex-column align-items-start">
-                                                        <label for="deadline" class="form-label">Deadline</label>
-                                                        <input type="datetime-local" name="deadline" class="form-control"
-                                                            value="{{ $leave->deadline }}" />
+                                                        <label for="end_date" class="form-label">Deadline</label>
+                                                        <input type="date" name="end_date" class="form-control"
+                                                            value="{{ $leave->end_date->format('Y-m-d') }}" />
                                                     </div>
                                                     <div class="mb-3 d-flex flex-column align-items-start">
-                                                        <label for="points" class="form-label">Points</label>
-                                                        <input type="number" name="points" class="form-control"
-                                                            min="1" value="{{ $leave->points }}" />
+                                                        <label for="status" class="form-label">Status</label>
+                                                        <select name="status" class="form-select">
+                                                            <option value="0"
+                                                                {{ $leave->status == 0 ? 'selected' : '' }}>Pending
+                                                            </option>
+                                                            <option value="1"
+                                                                {{ $leave->status == 1 ? 'selected' : '' }}>Approved
+                                                            </option>
+                                                            <option value="2"
+                                                                {{ $leave->status == 2 ? 'selected' : '' }}>Rejected
+                                                            </option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 @method('PUT')
@@ -153,16 +162,4 @@
                 </div>
             </div>
         </div>
-    @endsection
-
-    @section('scripts')
-        <script src="{{ asset('lib/tinymce/tinymce.min.js') }}"></script>
-        <script>
-            tinymce.init({
-                selector: '.description',
-                menubar: 'edit view insert format', // remove 'file' from this list
-                toolbar_mode: 'floating',
-                width: '100%',
-            });
-        </script>
     @endsection

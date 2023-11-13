@@ -22,8 +22,11 @@ Route::get('/', function () {
 });
 
 Route::resource('attendances', AttendanceController::class)->only(['store']);
-Route::resource('tasks', TaskController::class)->only(['index', 'store', 'update', 'destroy']);
-Route::resource('leaves', LeaveController::class)->only(['index', 'store', 'update', 'destroy']);
+Route::resource('tasks', TaskController::class)
+    ->only(['index', 'store', 'update', 'destroy']);
+Route::resource('leaves', LeaveController::class)
+    ->only(['index', 'store', 'update', 'destroy'])
+    ->parameters(['leaves' => 'leave']);
 
 Auth::routes();
 
