@@ -25,6 +25,10 @@ class DatabaseSeeder extends Seeder
             'email' => 'xavijoe200@gmail.com',
         ]);
 
+        User::factory()
+            ->count(20)
+            ->create();
+
         $this->call([
             TaskSeeder::class,
             LeaveSeeder::class,

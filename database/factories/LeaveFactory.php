@@ -21,7 +21,7 @@ class LeaveFactory extends Factory
         $end_date = $this->faker->dateTimeBetween($start_date, '+2 months');
 
         return [
-            'user_id' => User::factory(),
+            'user_id' => User::inRandomOrder()->first()->id,
             'title' => $this->faker->sentence,
             'start_date' => $start_date->format('Y-m-d'),
             'end_date' => $end_date->format('Y-m-d'),

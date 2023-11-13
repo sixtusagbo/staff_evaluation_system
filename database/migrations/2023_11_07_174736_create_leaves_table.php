@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->string('reason', 1000);
-            $table->string('status')->default(0)->comment('0: pending, 1: approved, 2: rejected');
+            $table->string('status')->default(0)->comment('0: pending, 1: approved, 2: declined');
             $table->timestamps();
         });
     }

@@ -147,7 +147,7 @@
             <div class="col-sm-12 col-md-6 col-xl-4">
                 <div class="h-100 bg-light rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Attendances (Last 10)</h6>
+                        <h6 class="mb-0">Attendances in last 10 days</h6>
                     </div>
                     <!-- Attendance Timeline -->
                     <ul class="timeline">
@@ -167,26 +167,44 @@
                 <div class="h-100 bg-light rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <h6 class="mb-0">Recent Leaves</h6>
-                        <a href="">Show All</a>
+                        <a href="{{ route('leaves.index') }}">Show All</a>
                     </div>
 
                     @forelse ($leaves as $leave)
                         <div class="d-flex align-items-center border-bottom py-3">
                             <div class="w-100">
                                 <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-0"><span class="badge rounded-pill bg-warning">Pending Review</span>
-                                        SICK LEAVE</h6>
+                                    <h6 class="mb-0">
+                                        @switch($leave->status)
+                                            @case(0)
+                                                <span class="badge rounded-pill bg-warning">Pending Review</span>
+                                            @break
+
+                                            @case(1)
+                                                <span class="badge rounded-pill bg-success">Approved</span>
+                                            @break
+
+                                            @case(2)
+                                                <span class="badge rounded-pill bg-danger">Declined</span>
+                                            @break
+                                        @endswitch
+                                        {{ $leave->title }}
+                                    </h6>
                                 </div>
-                                <span>From <span class="fw-bold">Foo Date</span> to <span class="fw-bold">Bar
-                                        Date</span></span>
+                                <span>
+                                    From
+                                    <span class="fw-bold">
+                                        {{ $leave->start_date->format('D, jS M Y') }}</span> to
+                                    <span class="fw-bold">{{ $leave->end_date->format('D, jS M Y') }}</span>
+                                </span>
                             </div>
                         </div>
-                    @empty
-                        <p class="text-dark">No leaves yet.</p>
-                    @endforelse
+                        @empty
+                            <p class="text-dark">No leaves yet.</p>
+                        @endforelse
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Widgets End -->
-@endsection
+        <!-- Widgets End -->
+    @endsection
