@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\StaffController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,9 @@ Route::resource('tasks', TaskController::class)
 Route::resource('leaves', LeaveController::class)
     ->only(['index', 'create', 'store', 'update', 'destroy'])
     ->parameters(['leaves' => 'leave']);
+Route::resource('staff', StaffController::class)
+    ->only(['index', 'store', 'update', 'destroy'])
+    ->parameters(['staff' => 'user']);
 
 Auth::routes();
 

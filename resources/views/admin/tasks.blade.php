@@ -51,7 +51,7 @@
                                         @if ($task->users->count() > 0)
                                             <span
                                                 class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
-                                                style="background-color: aquamarine">
+                                                style="background-color: #d07fff">
                                                 @if ($task->users->count() >= 100)
                                                     99+
                                                 @else
