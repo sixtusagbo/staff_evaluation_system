@@ -97,6 +97,17 @@
                                                         <input type="email" name="email" class="form-control"
                                                             value="{{ $user->email }}" />
                                                     </div>
+                                                    <div class="mb-3 d-flex flex-column align-items-start">
+                                                        <label for="type" class="form-label">Type</label>
+                                                        <select name="type" class="form-select">
+                                                            <option value="0"
+                                                                {{ $user->type == 0 ? 'selected' : '' }}>
+                                                                Staff</option>
+                                                            <option value="1"
+                                                                {{ $user->type == 1 ? 'selected' : '' }}>
+                                                                Admin</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                                 @method('PUT')
                                             </div>

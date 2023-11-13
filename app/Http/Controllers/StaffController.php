@@ -54,7 +54,15 @@ class StaffController extends Controller
      */
     public function update(User $user)
     {
-        //
+        $data = request()->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'type' => ['required', 'numeric', 'in:0,1'],
+        ]);
+
+        $user->update($data);
+
+        return redirect()->back()->with('success', $data['type'] == 1 ? $user->name . ' promoted to admin successfully.' : 'Staff updated successfully');
     }
 
     /**
