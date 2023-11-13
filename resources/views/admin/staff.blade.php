@@ -1,5 +1,52 @@
 @extends('layouts.app')
 
+@section('styles')
+    <style>
+        .attendance-banner {
+            max-width: 400px !important;
+        }
+
+        /* Timeline holder */
+        ul.timeline {
+            list-style-type: none;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        /* Timeline vertical line */
+        ul.timeline:before {
+            content: ' ';
+            background: lightgreen;
+            display: inline-block;
+            position: absolute;
+            left: 16px;
+            width: 4px;
+            height: 100%;
+            z-index: 400;
+            border-radius: 1rem;
+        }
+
+        li.timeline-item {
+            margin: 20px 0;
+        }
+
+        /* Timeline item circle marker */
+        li.timeline-item::before {
+            content: ' ';
+            background: #2bff00;
+            display: inline-block;
+            position: absolute;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            left: 11px;
+            width: 14px;
+            height: 14px;
+            z-index: 400;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="container-fluid pt-4 px-4">
         <div class="bg-light text-center rounded p-4">
@@ -179,6 +226,45 @@
                                             @empty
                                                 <p>This staff has completed no task</p>
                                             @endforelse
+                                        </div>
+
+                                        <div class="modal-footer bg-light">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Back</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- User Attendances Modal -->
+                            <div class="modal fade" id="userAttendances{{ $user->id }}" data-bs-keyboard="false"
+                                tabindex="-1" aria-labelledby="userAttendances{{ $user->id }}Label"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content border-0">
+                                        <div class="modal-header bg-light">
+                                            <h4 class="modal-title fs-6" id="userAttendances{{ $user->id }}Label">
+                                                Attendances signed by {{ $user->name }}
+                                            </h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+
+                                        <div class="modal-body bg-light d-flex align-items-start">
+                                            <!-- Attendance Timeline -->
+                                            <ul class="timeline">
+                                                @forelse ($user->attendances as $attendance)
+                                                    <li class="timeline-item rounded p-2">
+                                                        <h6 class="h6 mb-0">
+                                                            {{ $attendance->checked_in_at->format('D, jS M Y b\y h:i A') }}
+                                                        </h6>
+                                                    </li>
+                                                @empty
+                                                    <div class="text-dark">
+                                                        There are currently no attendance records for {{ $user->name }}.
+                                                    </div>
+                                                @endforelse
+                                            </ul><!-- Attendance End -->
                                         </div>
 
                                         <div class="modal-footer bg-light">
