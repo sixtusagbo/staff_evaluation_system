@@ -70,6 +70,11 @@ class StaffController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->attendances()->delete();
+        $user->leaves()->delete();
+        $user->tasks()->detach();
+        $user->delete();
+
+        return redirect()->back()->with('success', 'Staff deleted successfully');
     }
 }
