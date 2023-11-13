@@ -197,12 +197,11 @@
                     <h4 class="modal-title fs-6" id="createUserLabel">Create Staff</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('tasks.store') }}" method="POST">
+                <form action="{{ route('staff.store') }}" method="POST">
                     @csrf
 
                     <div class="modal-body bg-light">
                         <div class="rounded h-100">
-
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
                                 <input type="text" name="name" class="form-control" />
@@ -214,6 +213,10 @@
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" name="password" class="form-control" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Confirm Password</label>
+                                <input type="password" name="password_confirmation" class="form-control" />
                             </div>
                         </div>
                     </div>
