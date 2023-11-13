@@ -73,6 +73,8 @@ class LeaveController extends Controller
      */
     public function destroy(Leave $leave)
     {
-        //
+        $leave->delete();
+
+        return redirect()->back()->with('success', 'Leave deleted successfully');
     }
 }

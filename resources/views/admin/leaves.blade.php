@@ -49,7 +49,7 @@
                                         <i class="fa fa-pencil-alt"></i>
                                     </button>
                                     <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#deleteTask{{ $leave->id }}" title="Remove">
+                                        data-bs-target="#deleteLeave{{ $leave->id }}" title="Remove">
                                         <i class="fa fa-trash-alt"></i>
                                     </button>
                                 </td>
@@ -120,24 +120,25 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Delete Task Modal -->
-                            <div class="modal fade" id="deleteTask{{ $leave->id }}" data-bs-keyboard="false"
-                                tabindex="-1" aria-labelledby="deleteTask{{ $leave->id }}Label" aria-hidden="true">
+
+                            <!-- Delete Leave Modal -->
+                            <div class="modal fade" id="deleteLeave{{ $leave->id }}" data-bs-keyboard="false"
+                                tabindex="-1" aria-labelledby="deleteLeave{{ $leave->id }}Label" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content border-0">
                                         <div class="modal-header bg-light">
-                                            <h4 class="modal-title fs-6" id="deleteTask{{ $leave->id }}Label">Delete
-                                                Task
+                                            <h4 class="modal-title fs-6" id="deleteLeave{{ $leave->id }}Label">Delete
+                                                Leave
                                             </h4>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <form action="{{ route('tasks.destroy', $leave) }}" method="POST">
+                                        <form action="{{ route('leaves.destroy', $leave) }}" method="POST">
                                             @csrf
 
                                             <div class="modal-body bg-light">
                                                 <div class="rounded h-100">
-                                                    Attention! You are about to delete this task. This action cannot be
+                                                    Attention! You are about to delete this leave. This action cannot be
                                                     undone.
                                                 </div>
                                                 @method('DELETE')
