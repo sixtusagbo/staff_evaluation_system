@@ -28,7 +28,7 @@
                                 <td>{{ $leave->end_date->format('M d, Y') }}</td>
                                 <td>{!! Str::limit($leave->reason, 50, '...') !!}</td>
                                 <td>
-                                    {{-- ? 0: Pending, 1: Approved, 2: Rejected --}}
+                                    {{-- ? 0: Pending, 1: Approved, 2: Declined --}}
                                     @switch($leave->status)
                                         @case(0)
                                             <span class="badge rounded-pill bg-warning">Pending</span>
@@ -39,7 +39,7 @@
                                         @break
 
                                         @case(2)
-                                            <span class="badge rounded-pill bg-dark">Rejected</span>
+                                            <span class="badge rounded-pill bg-dark">Declined</span>
                                         @break
                                     @endswitch
                                 </td>
@@ -89,7 +89,7 @@
                                                             value="{{ $leave->start_date->format('Y-m-d') }}" />
                                                     </div>
                                                     <div class="mb-3 d-flex flex-column align-items-start">
-                                                        <label for="end_date" class="form-label">Deadline</label>
+                                                        <label for="end_date" class="form-label">Ends By</label>
                                                         <input type="date" name="end_date" class="form-control"
                                                             value="{{ $leave->end_date->format('Y-m-d') }}" />
                                                     </div>
@@ -103,7 +103,7 @@
                                                                 {{ $leave->status == 1 ? 'selected' : '' }}>Approved
                                                             </option>
                                                             <option value="2"
-                                                                {{ $leave->status == 2 ? 'selected' : '' }}>Rejected
+                                                                {{ $leave->status == 2 ? 'selected' : '' }}>Declined
                                                             </option>
                                                         </select>
                                                     </div>

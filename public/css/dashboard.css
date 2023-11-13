@@ -269,3 +269,7 @@
   background: var(--dark);
   border-color: var(--primary);
 }
+
+.bg-warning {
+  color: #414141 !important;
+}

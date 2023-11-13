@@ -72,7 +72,11 @@
                     <a href="{{ route('leaves.index') }}"
                         class="nav-item nav-link @if (Route::is('leaves.index')) active @endif"><i
                             class="fa fa-snowboarding me-2"></i>Leave</a>
-
+                    @if (Auth::user()->role == 0)
+                        <a href="{{ route('leaves.create') }}"
+                            class="nav-item nav-link @if (Route::is('leaves.create')) active @endif"><i
+                                class="fa fa-plus me-2"></i>Apply for Leave</a>
+                    @endif
                 </div>
             </nav>
         </div>

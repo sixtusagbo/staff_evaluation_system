@@ -18,7 +18,7 @@ class EnsureUserIsAdmin
     {
         if (!auth()->user()->is_admin) {
             // User is not admin, redirect to dashboard
-            return redirect()->url('/');
+            return redirect()->route('home');
         }
 
         return $next($request);

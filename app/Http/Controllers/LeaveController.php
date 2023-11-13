@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Leave;
-use Illuminate\Http\Request;
 
 class LeaveController extends Controller
 {
@@ -41,23 +40,30 @@ class LeaveController extends Controller
      */
     public function create()
     {
-        //
+        return view('app.create_leave');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
-    }
+        $data = request()->validate([
+            'title' => 'required|string',
+            'reason' => 'required|string',
+            'start_date' => 'required|date|before:end_date',
+            'end_date' => 'required|date|after:start_date',
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Leave $leave)
-    {
-        //
+        $leave = new Leave();
+        $leave->title = $data['title'];
+        $leave->reason = $data['reason'];
+        $leave->start_date = $data['start_date'];
+        $leave->end_date = $data['end_date'];
+        $leave->user_id = auth()->user()->id;
+        $leave->save();
+
+        return redirect()->route('leaves.index')->with('success', 'Applied for leave successfully');
     }
 
     /**
