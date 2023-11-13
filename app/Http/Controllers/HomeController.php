@@ -28,13 +28,24 @@ class HomeController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $tasks = TaskView::latest();
 
         $data = [
             'user' => $user,
             'attendances' => $user->attendances()->latest()->take(10)->get(),
-            'tasks' => $tasks->where('status', 1)->take(5)->get(),
+            'tasks' => Task::whereDate('started_on', '<=', now())
+                ->whereDate('deadline', '>=', now())
+                ->whereDoesntHave('users', function ($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })
+                ->latest()
+                ->take(5)
+                ->get(),
             'leaves' => $user->leaves()->latest()->take(5)->get(),
+            'pending_tasks_count' => Task::whereDate('started_on', '<=', now())
+                ->whereDate('deadline', '>=', now())
+                ->whereDoesntHave('users', function ($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })->count(),
         ];
 
         $staff = User::where('type', 0)->withCount(['tasks', 'attendances'])->latest()->get();
@@ -45,7 +56,7 @@ class HomeController extends Controller
 
         $admin_data = [
             'users' => $staff,
-            'tasks' => $tasks,
+            'tasks' => Task::latest()->get(),
             'pending_leaves' => $leaves->where('status', 0)->get(),
             'leaves' => $leaves->get(),
             'chart_labels' => $chart_labels,

@@ -31,3 +31,5 @@ Route::resource('leaves', LeaveController::class)
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::put('/tasks/{task}/done', [TaskController::class, 'done'])->name('tasks.done');

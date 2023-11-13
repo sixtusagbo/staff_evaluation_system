@@ -90,7 +90,7 @@
                         <p class="mb-2 ms-3">Pending Tasks</p>
                     </div>
                     <div class="ms-3">
-                        <h6 class="mb-0">34</h6>
+                        <h6 class="mb-0">{{ $pending_tasks_count }}</h6>
                     </div>
                 </div>
             </div>
@@ -101,7 +101,7 @@
                         <p class="mb-2 ms-3">Completed Tasks</p>
                     </div>
                     <div class="ms-3">
-                        <h6 class="mb-0">12</h6>
+                        <h6 class="mb-0">{{ $user->tasks->count() }}</h6>
                     </div>
                 </div>
             </div>
@@ -109,10 +109,10 @@
                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                     <div class="d-flex justify-content-center align-items-center">
                         <i class="fas fa-snowboarding fa-3x text-primary"></i>
-                        <p class="mb-2 ms-3">Leave</p>
+                        <p class="mb-2 ms-3">Leaves</p>
                     </div>
                     <div class="ms-3">
-                        <h6 class="mb-0">2</h6>
+                        <h6 class="mb-0">{{ $user->leaves->count() }}</h6>
                     </div>
                 </div>
             </div>

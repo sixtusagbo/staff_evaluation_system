@@ -3,10 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\TaskUser;
+use App\Models\TaskView;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role.admin')->except(['index', 'done']);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -16,9 +29,14 @@ class TaskController extends Controller
 
         $data = [
             'user' => $user,
-            'tasks' => $user->tasks,
-            'pending_tasks' => $user->tasks()->where('deadline', '<', now()),
-            'upcoming_tasks' => $user->tasks()->where('started_on', '>', now()),
+            'your_tasks' => $user->tasks,
+            'ongoing_tasks' => Task::whereDate('started_on', '<=', now())
+                ->whereDate('deadline', '>=', now())
+                ->whereDoesntHave('users', function ($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })
+                ->get(),
+            'upcoming_tasks' => Task::whereDate('started_on', '>', now())->get(),
         ];
 
         $admin_data = [
@@ -84,5 +102,20 @@ class TaskController extends Controller
         $task->delete();
 
         return redirect()->back()->with('success', 'Task deleted successfully');
+    }
+
+    /**
+     * Create a task_user to depict that a user has completed a task.
+     */
+    public function done(Task $task)
+    {
+        $user = auth()->user();
+
+        $task_user = new TaskUser();
+        $task_user->task_id = $task->id;
+        $task_user->user_id = $user->id;
+        $task_user->save();
+
+        return redirect()->back()->with('success', 'Task completed successfully');
     }
 }
