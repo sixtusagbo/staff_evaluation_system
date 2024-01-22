@@ -130,52 +130,38 @@
                         </h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('leaves.update', $leave) }}" method="POST">
-                        @csrf
-
-                        <div class="modal-body bg-light">
-                            <div class="rounded h-100">
-
-                                <div class="mb-3 d-flex flex-column align-items-start">
-                                    <label for="title" class="form-label">Title</label>
-                                    <input type="text" class="form-control" value="{{ $leave->title }}" readonly />
-                                </div>
-                                <div class="mb-3 d-flex flex-column align-items-start">
-                                    <label class="form-label">Reason</label>
-                                    <textarea rows="6" class="form-control" readonly>
-                                        {!! $leave->reason !!}
-                                    </textarea>
-                                </div>
-                                <div class="mb-3 d-flex flex-column align-items-start">
-                                    <label for="start_date" class="form-label">Starts On</label>
-                                    <input type="date" name="start_date" class="form-control"
-                                        value="{{ $leave->start_date->format('Y-m-d') }}" />
-                                </div>
-                                <div class="mb-3 d-flex flex-column align-items-start">
-                                    <label for="end_date" class="form-label">Ends By</label>
-                                    <input type="date" name="end_date" class="form-control"
-                                        value="{{ $leave->end_date->format('Y-m-d') }}" />
-                                </div>
-                                <div class="mb-3 d-flex flex-column align-items-start">
-                                    <label for="status" class="form-label">Status</label>
-                                    <select name="status" class="form-select">
-                                        <option value="0" {{ $leave->status == 0 ? 'selected' : '' }}>Pending
-                                        </option>
-                                        <option value="1" {{ $leave->status == 1 ? 'selected' : '' }}>Approved
-                                        </option>
-                                        <option value="2" {{ $leave->status == 2 ? 'selected' : '' }}>Declined
-                                        </option>
-                                    </select>
-                                </div>
+                    <div class="modal-body bg-light">
+                        <div class="rounded h-100">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">Current Tasks ({{ $done_tasks->count() }})</h6>
                             </div>
-                            @method('PUT')
-                        </div>
 
-                        <div class="modal-footer bg-light">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-success">Update</button>
+                            @forelse ($done_tasks as $task)
+                                <div class="d-flex flex-column align-items-start justify-content-start border-bottom py-3">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-0">{{ $task->title }}</h6>
+
+                                        <form action="{{ route('tasks.done', $task) }}" method="POST">
+                                            @csrf
+                                            <button class="btn btn-secondary" type="submit">Done</button>
+
+                                            @method('PUT')
+                                        </form>
+                                    </div>
+                                    <div style="text-align: left">
+                                        {!! $task->description !!}
+                                    </div>
+                                </div>
+                            @empty
+                                <p class="text-dark">No tasks for now. Enjoy the silence.</p>
+                            @endforelse
                         </div>
-                    </form>
+                    </div>
+
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Update</button>
+                    </div>
                 </div>
             </div>
         </div>
