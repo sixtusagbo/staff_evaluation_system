@@ -85,6 +85,6 @@ class StaffController extends Controller
 
         $finalGrade = $taskScore + $attendanceScore;
 
-        return view('grade', ['grade' => $finalGrade]);
+        return $finalGrade;
     }
 }

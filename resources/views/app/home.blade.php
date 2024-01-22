@@ -120,12 +120,67 @@
     </div>
 
     <div class="container-fluid pt-4 px-4 attendance-banner">
-        <div class="bg-light text-center rounded p-4">
-            <form action="{{ route('attendances.store') }}" method="post">
-                @csrf
+        <!-- Edit Leave Modal -->
+        <div class="modal fade" id="editLeave{{ $leave->id }}" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="editLeave{{ $leave->id }}Label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content border-0">
+                    <div class="modal-header bg-light">
+                        <h4 class="modal-title fs-6" id="editLeave{{ $leave->id }}Label">Edit Leave
+                        </h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('leaves.update', $leave) }}" method="POST">
+                        @csrf
 
-                <button class="btn btn-success">Check in for today</button>
-            </form>
+                        <div class="modal-body bg-light">
+                            <div class="rounded h-100">
+
+                                <div class="mb-3 d-flex flex-column align-items-start">
+                                    <label for="title" class="form-label">Title</label>
+                                    <input type="text" class="form-control" value="{{ $leave->title }}" readonly />
+                                </div>
+                                <div class="mb-3 d-flex flex-column align-items-start">
+                                    <label class="form-label">Reason</label>
+                                    <textarea rows="6" class="form-control" readonly>
+                                        {!! $leave->reason !!}
+                                    </textarea>
+                                </div>
+                                <div class="mb-3 d-flex flex-column align-items-start">
+                                    <label for="start_date" class="form-label">Starts On</label>
+                                    <input type="date" name="start_date" class="form-control"
+                                        value="{{ $leave->start_date->format('Y-m-d') }}" />
+                                </div>
+                                <div class="mb-3 d-flex flex-column align-items-start">
+                                    <label for="end_date" class="form-label">Ends By</label>
+                                    <input type="date" name="end_date" class="form-control"
+                                        value="{{ $leave->end_date->format('Y-m-d') }}" />
+                                </div>
+                                <div class="mb-3 d-flex flex-column align-items-start">
+                                    <label for="status" class="form-label">Status</label>
+                                    <select name="status" class="form-select">
+                                        <option value="0" {{ $leave->status == 0 ? 'selected' : '' }}>Pending
+                                        </option>
+                                        <option value="1" {{ $leave->status == 1 ? 'selected' : '' }}>Approved
+                                        </option>
+                                        <option value="2" {{ $leave->status == 2 ? 'selected' : '' }}>Declined
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            @method('PUT')
+                        </div>
+
+                        <div class="modal-footer bg-light">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="bg-light text-center rounded p-4">
+            <button class="btn btn-success">Evaluate</button>
         </div>
     </div>
 
