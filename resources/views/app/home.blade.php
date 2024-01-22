@@ -121,52 +121,64 @@
 
     <div class="container-fluid pt-4 px-4 attendance-banner">
         <!-- Edit Leave Modal -->
-        <div class="modal fade" id="editLeave{{ $leave->id }}" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="editLeave{{ $leave->id }}Label" aria-hidden="true">
+        <div class="modal fade" id="evaluationModal" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="evaluationModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content border-0">
                     <div class="modal-header bg-light">
-                        <h4 class="modal-title fs-6" id="editLeave{{ $leave->id }}Label">Edit Leave
+                        <h4 class="modal-title fs-6">Evaluation
                         </h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body bg-light">
                         <div class="rounded h-100">
                             <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0">Current Tasks ({{ $done_tasks->count() }})</h6>
+                                <h6 class="mb-0">Done Tasks ({{ $done_tasks->count() }})</h6>
                             </div>
-
-                            @forelse ($done_tasks as $task)
+                            @forelse ($done_tasks as $tu)
                                 <div class="d-flex flex-column align-items-start justify-content-start border-bottom py-3">
                                     <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">{{ $task->title }}</h6>
+                                        <h6 class="mb-0 text-dark">{{ $tu->task->title }}</h6>
 
-                                        <form action="{{ route('tasks.done', $task) }}" method="POST">
-                                            @csrf
-                                            <button class="btn btn-secondary" type="submit">Done</button>
-
-                                            @method('PUT')
-                                        </form>
-                                    </div>
-                                    <div style="text-align: left">
-                                        {!! $task->description !!}
+                                        <div>
+                                            Points: {{ $tu->task->points }}
+                                        </div>
                                     </div>
                                 </div>
                             @empty
-                                <p class="text-dark">No tasks for now. Enjoy the silence.</p>
+                                <p class="text-dark">No tasks completed yet.</p>
                             @endforelse
+                            <div class="d-flex flex-column align-items-start justify-content-start py-3 pb-0">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-0 text-dark">Attendances ({{ $total_attendances }})</h6>
+
+                                    <div>
+                                        Points: {{ $attendance_score }}
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="d-flex flex-column align-items-start justify-content-start">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-0 text-dark">Total Score</h6>
+
+                                    <div>
+                                        {{ number_format($total_score, '2') }}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="modal-footer bg-light">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="submit" class="btn btn-success">Print</button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="bg-light text-center rounded p-4">
-            <button class="btn btn-success">Evaluate</button>
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#evaluationModal">Evaluate</button>
         </div>
     </div>
 
@@ -204,7 +216,8 @@
                     <ul class="timeline">
                         @forelse ($attendances as $attendance)
                             <li class="timeline-item rounded p-2">
-                                <h6 class="h6 mb-0">{{ $attendance->checked_in_at->format('D, jS M Y b\y h:i A') }}</h6>
+                                <h6 class="h6 mb-0">{{ $attendance->checked_in_at->format('D, jS M Y b\y h:i A') }}
+                                </h6>
                             </li>
                         @empty
                             <div class="text-dark">

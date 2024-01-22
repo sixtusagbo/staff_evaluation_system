@@ -80,7 +80,7 @@ class StaffController extends Controller
 
     public function grade(User $user)
     {
-        $taskScore = $user->tasks->sum('weight') * 10;
+        $taskScore = $user->tasks->sum('points') * 10;
         $attendanceScore = $user->attendances->count() * 10;
 
         $finalGrade = $taskScore + $attendanceScore;

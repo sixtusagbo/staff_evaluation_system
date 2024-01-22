@@ -20,4 +20,24 @@ class TaskUser extends Model
         'task_id',
         'user_id',
     ];
+
+    /**
+     * A task_user belongs to a user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * A task_user belongs to a task.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
+    }
 }

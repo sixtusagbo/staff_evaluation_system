@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Leave;
 use App\Models\Task;
+use App\Models\TaskUser;
 use App\Models\TaskView;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -29,6 +30,16 @@ class HomeController extends Controller
     {
         $user = auth()->user();
 
+        $taskScore = $user->tasks->sum('points');
+        $attendanceScore = $user->attendances->count() * 5;
+
+        $totalScore = $taskScore + $attendanceScore;
+
+        $taskPercentage = ($taskScore / $totalScore) * 100;
+        $attendancePercentage = ($attendanceScore / $totalScore) * 100;
+
+        $totalPercentage = $taskPercentage + $attendancePercentage;
+
         $data = [
             'user' => $user,
             'attendances' => $user->attendances()->latest()->take(10)->get(),
@@ -46,6 +57,14 @@ class HomeController extends Controller
                 ->whereDoesntHave('users', function ($query) use ($user) {
                     $query->where('user_id', $user->id);
                 })->count(),
+            'done_tasks' => TaskUser::with('task')->where('user_id', $user->id)->latest()->get(),
+            'task_score' => $taskScore,
+            'attendance_score' => $attendanceScore,
+            'total_score' => $totalScore,
+            'total_attendances' => $user->attendances->count(),
+            'task_percentage' => $taskPercentage,
+            'attendance_percentage' => $attendancePercentage,
+            'total_percentage' => $totalPercentage,
         ];
 
         $staff = User::where('type', 0)->withCount(['tasks', 'attendances'])->latest()->get();
