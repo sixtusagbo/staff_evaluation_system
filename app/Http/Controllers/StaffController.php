@@ -77,4 +77,14 @@ class StaffController extends Controller
 
         return redirect()->back()->with('success', 'Staff deleted successfully');
     }
+
+    public function grade(User $user)
+    {
+        $taskScore = $user->tasks->sum('weight') * 10;
+        $attendanceScore = $user->attendances->count() * 10;
+
+        $finalGrade = $taskScore + $attendanceScore;
+
+        return view('grade', ['grade' => $finalGrade]);
+    }
 }

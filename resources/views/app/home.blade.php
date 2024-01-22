@@ -119,6 +119,16 @@
         </div>
     </div>
 
+    <div class="container-fluid pt-4 px-4 attendance-banner">
+        <div class="bg-light text-center rounded p-4">
+            <form action="{{ route('attendances.store') }}" method="post">
+                @csrf
+
+                <button class="btn btn-success">Check in for today</button>
+            </form>
+        </div>
+    </div>
+
     <!-- Widgets Start -->
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
